@@ -8,7 +8,7 @@ s = Service("/home/lynne/Programs/Development/chromedriver")
 driver = webdriver.Chrome(service=s)
 driver.get("https://orteil.dashnet.org/cookieclicker/")
 cookie = driver.find_element(By.XPATH, "//*[@id='bigCookie']")
-timeout = time.time() + 30  # 60*5 5 minutes from now
+timeout = time.time() + 60*5
 five_secs = time.time() + 5
 products = driver.find_elements(By.CSS_SELECTOR, "#products")
 product_ids = [product.get_attribute("id") for product in products]
