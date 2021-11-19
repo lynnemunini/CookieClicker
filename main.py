@@ -11,17 +11,19 @@ cookie = driver.find_element(By.XPATH, "//*[@id='bigCookie']")
 timeout = time.time() + 60*5
 five_secs = time.time() + 5
 products = driver.find_elements(By.CSS_SELECTOR, "#products")
-product_ids = [product.get_attribute("id") for product in products]
+# product_ids = [product.get_attribute("id") for product in products]
 while True:
     cookie.click()
     if time.time() >= five_secs:
-        for each in product_ids:
+        for _ in products:
             unlocked_products = driver.find_elements(By.CSS_SELECTOR, ".product.unlocked.enabled")
             # print(unlocked_products)
-            prices_list = [int(element.text.split()[1]) for element in unlocked_products]
-            cookies = driver.find_element(By.ID, "cookies").text.split()[0]
-            cookies_count = int(cookies)
-            # print(cookies)
+            prices_list = [int(element.text.split()[1].strip().replace(",", "")) for element in unlocked_products]
+            # print(prices_list)
+            cookies = driver.find_element(By.ID, "cookies").text.split()[0].strip()
+            cookies_c = cookies.replace(",", "")
+            cookies_count = int(cookies_c)
+            # print(cookies_count)
             # to get most expensive upgrade that is affordable
             affordable_upgrade = [None]
             for price in prices_list:
@@ -35,5 +37,7 @@ while True:
         five_secs = time.time() + 5
 
     if time.time() > timeout:
+        final_score = driver.find_element(By.ID, "cookies").text
+        print(final_score)
         break
 
